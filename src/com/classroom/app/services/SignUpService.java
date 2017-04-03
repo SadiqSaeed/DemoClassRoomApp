@@ -159,4 +159,27 @@ public class SignUpService implements SignUpInterface {
         }
         return Message;
     }
+
+    public int checkStatus(String id) {
+        int status = 0;
+        try {
+            con = dbConnection.openConnection();
+            Statement statement = con.createStatement();
+
+            String query = "Select status from signup where id= '" + id + "'";
+
+            ResultSet resultSet = statement.executeQuery(query);
+
+            while (resultSet.next()) {
+                status = resultSet.getInt("status");
+            }
+
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        } finally {
+            dbConnection.closeConnection(con);
+        }
+
+        return status;
+    }
 }

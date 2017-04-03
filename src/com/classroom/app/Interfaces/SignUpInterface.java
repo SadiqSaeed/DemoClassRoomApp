@@ -19,4 +19,6 @@ public interface SignUpInterface {
 
     String updateUserData(String id, String userName, String password);
 
+    int checkStatus(String id);
+
 }
