@@ -11,7 +11,9 @@ public class Test5 {
     public static void main(String[] args) {
         SignUpInterface signUpInterface = new SignUpService();
 
-        System.out.println("Status = " + signUpInterface.checkStatus("11gd10"));
+        System.out.println("Status = " + signUpInterface.checkStatus("cxlz11"));
+
+        System.out.println("Message: " +signUpInterface.updateStatus("cxlz11"));
 
     }
 

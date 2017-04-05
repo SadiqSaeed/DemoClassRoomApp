@@ -2,6 +2,7 @@ package com.classroom.app.services;
 
 import com.classroom.app.Interfaces.SignUpInterface;
 import com.classroom.app.database.DBConnection;
+import com.classroom.app.model.SignIn;
 import com.classroom.app.model.SignUp;
 
 import java.sql.Connection;
@@ -160,6 +161,36 @@ public class SignUpService implements SignUpInterface {
         return Message;
     }
 
+    @Override
+    public String updateStatus(String id) {
+        SignIn signIn = new SignIn();
+        try {
+            con = dbConnection.openConnection();
+            Statement statement = con.createStatement();
+
+            signIn.setStatus(checkStatus(id));
+
+            if (signIn.getStatus() == 0) {
+                signIn.setStatus(1);
+                String query = "Update signup set status = '" + signIn.getStatus() + "' where id = '" + id + "'";
+                statement.execute(query);
+                Message = "Account Activated Successfully!!!! ";
+            } else if (signIn.getStatus() == 1) {
+                Message = "Your Account is already activated!!!! ";
+            } else if (signIn.getStatus() == 2) {
+                Message = "Your account is blocked and cannot be activated!!!! ";
+            }
+
+
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        } finally {
+            dbConnection.closeConnection(con);
+        }
+        return Message;
+    }
+
+    @Override
     public int checkStatus(String id) {
         int status = 0;
         try {
