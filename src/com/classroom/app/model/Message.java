@@ -1,7 +1,7 @@
 package com.classroom.app.model;
 
 import javax.xml.bind.annotation.XmlRootElement;
-import java.util.Date;
+import java.sql.Timestamp;
 
 /**
  * Created by Muhammad Sadiq Saeed on 4/5/2017.
@@ -11,7 +11,7 @@ public class Message {
 
     private int messageId;
     private String message;
-    private Date createdAt;
+    private Timestamp createdAt;
     private String recipient;
     private String author;
 
@@ -42,11 +42,11 @@ public class Message {
         this.message = message;
     }
 
-    public Date getCreatedAt() {
+    public Timestamp getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(Date createdAt) {
+    public void setCreatedAt(Timestamp createdAt) {
         this.createdAt = createdAt;
     }
 

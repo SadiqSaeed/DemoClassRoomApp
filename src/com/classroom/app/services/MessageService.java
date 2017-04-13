@@ -8,6 +8,8 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -20,6 +22,8 @@ public class MessageService implements MessageInterface {
     private Message messageClass;
     private Statement statement;
     private ResultSet resultSet;
+    private String query;
+    private List<Message> messageList;
 
 
     @Override
@@ -30,18 +34,74 @@ public class MessageService implements MessageInterface {
             con = dbConnection.openConnection();
             statement = con.createStatement();
 
-            String query = "Insert into messages(messageId, message, recipient , author) Values ('" + messageClass.getMessageId() + "'," +
+            query = "Insert into messages(messageId, message, recipient , author) Values ('" + messageClass.getMessageId() + "'," +
                     "'" + messageClass.getMessage() + "', '" + messageClass.getRecipient() + "', '" + messageClass.getAuthor() + "')";
 
             if (!(messageClass.getMessage().equals("") && messageClass.getRecipient().equals("") && messageClass.getAuthor().equals(""))) {
                 statement.execute(query);
-                System.out.println("Message sent Successfully!!! ");
             }
 
         } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
+            ex.printStackTrace();
         } finally {
-            dbConnection.closeConnection(con);
+            try {
+                statement.close();
+                dbConnection.closeConnection(con);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
+    }
+
+    @Override
+    public List<Message> getAllMessages() {
+        messageList = new ArrayList<>();
+        dbConnection = new DBConnection();
+        try {
+            con = dbConnection.openConnection();
+            statement = con.createStatement();
+
+            query = "Select * from messages";
+
+            resultSet = statement.executeQuery(query);
+
+            while (resultSet.next()) {
+                messageClass = new Message();
+                messageClass.setMessageId(resultSet.getInt("messageId"));
+                messageClass.setMessage(resultSet.getString("message"));
+                messageClass.setCreatedAt(resultSet.getTimestamp("createdAt"));
+                messageClass.setRecipient(resultSet.getString("recipient"));
+                messageClass.setAuthor(resultSet.getString("author"));
+                messageList.add(messageClass);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                statement.close();
+                resultSet.close();
+                dbConnection.closeConnection(con);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+        }
+        return messageList;
+    }
+
+    @Override
+    public List<Message> getAllMessagesForYear(int year) {
+        return null;
+    }
+
+    @Override
+    public List<Message> getAllMessagePaginated(int start, int size) {
+        return null;
+    }
+
+    @Override
+    public Message getMessage(int id) {
+        return null;
     }
 }
