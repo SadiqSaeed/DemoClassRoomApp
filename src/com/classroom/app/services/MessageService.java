@@ -54,7 +54,7 @@ public class MessageService implements MessageInterface {
     }
 
     @Override
-    public List<Message> getAllMessages() {
+    public List<Message> getAllMessages(String chatRoomId) {
         messageList = new ArrayList<>();
         dbConnection = new DBConnection();
         try {

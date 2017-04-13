@@ -12,7 +12,7 @@ public interface MessageInterface {
 
     void sendMessage(int messageId, String message, String recipient, String author);
 
-    List<Message> getAllMessages();
+    List<Message> getAllMessages(String chatRoomId);
 
     List<Message> getAllMessagesForYear(int year);
 
