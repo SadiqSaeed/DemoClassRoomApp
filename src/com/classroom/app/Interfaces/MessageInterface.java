@@ -10,7 +10,7 @@ import java.util.List;
  */
 public interface MessageInterface {
 
-    void sendMessage(int messageId, String message, String recipient, String author);
+    void sendMessage(int messageId, String message, String author, String chatId);
 
     List<Message> getAllMessages(String chatRoomId);
 

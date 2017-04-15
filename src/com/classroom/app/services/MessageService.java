@@ -27,17 +27,17 @@ public class MessageService implements MessageInterface {
 
 
     @Override
-    public void sendMessage(int messageId, String message, String recipient, String author) {
+    public void sendMessage(int messageId, String message, String author, String chatId) {
         dbConnection = new DBConnection();
-        messageClass = new Message(messageId, message, recipient, author);
+        messageClass = new Message(messageId, message, author, chatId);
         try {
             con = dbConnection.openConnection();
             statement = con.createStatement();
 
-            query = "Insert into messages(messageId, message, recipient , author) Values ('" + messageClass.getMessageId() + "'," +
-                    "'" + messageClass.getMessage() + "', '" + messageClass.getRecipient() + "', '" + messageClass.getAuthor() + "')";
+            query = "Insert into messages(messageId, message, author, chatId) Values ('" + messageClass.getMessageId() + "'," +
+                    "'" + messageClass.getMessage() + "', '" + messageClass.getAuthor() + "', '" + messageClass.getChatId() + "')";
 
-            if (!(messageClass.getMessage().equals("") && messageClass.getRecipient().equals("") && messageClass.getAuthor().equals(""))) {
+            if (!(messageClass.getMessage().equals("") && messageClass.getChatId().equals("") && messageClass.getAuthor().equals(""))) {
                 statement.execute(query);
             }
 
@@ -57,11 +57,14 @@ public class MessageService implements MessageInterface {
     public List<Message> getAllMessages(String chatRoomId) {
         messageList = new ArrayList<>();
         dbConnection = new DBConnection();
+        messageClass = new Message();
         try {
             con = dbConnection.openConnection();
             statement = con.createStatement();
 
-            query = "Select * from messages";
+            messageClass.setChatId(chatRoomId);
+
+            query = "Select * from messages where chatId = '" + messageClass.getChatId() + "'";
 
             resultSet = statement.executeQuery(query);
 
@@ -70,7 +73,7 @@ public class MessageService implements MessageInterface {
                 messageClass.setMessageId(resultSet.getInt("messageId"));
                 messageClass.setMessage(resultSet.getString("message"));
                 messageClass.setCreatedAt(resultSet.getTimestamp("createdAt"));
-                messageClass.setRecipient(resultSet.getString("recipient"));
+                messageClass.setChatId(resultSet.getString("chatId"));
                 messageClass.setAuthor(resultSet.getString("author"));
                 messageList.add(messageClass);
             }

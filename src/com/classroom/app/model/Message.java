@@ -12,18 +12,18 @@ public class Message {
     private int messageId;
     private String message;
     private Timestamp createdAt;
-    private String recipient;
     private String author;
+    private String chatId;
 
     public Message() {
 
     }
 
-    public Message(int messageId, String message, String recipient, String author) {
+    public Message(int messageId, String message, String author, String chatId) {
         this.messageId = messageId;
         this.message = message;
-        this.recipient = recipient;
         this.author = author;
+        this.chatId = chatId;
     }
 
     public int getMessageId() {
@@ -50,12 +50,12 @@ public class Message {
         this.createdAt = createdAt;
     }
 
-    public String getRecipient() {
-        return recipient;
+    public String getChatId() {
+        return chatId;
     }
 
-    public void setRecipient(String recipient) {
-        this.recipient = recipient;
+    public void setChatId(String chatId) {
+        this.chatId = chatId;
     }
 
     public String getAuthor() {
@@ -72,7 +72,7 @@ public class Message {
                 "messageId=" + messageId +
                 ", message='" + message + '\'' +
                 ", createdAt=" + createdAt +
-                ", recipient='" + recipient + '\'' +
+                ", recipient='" + chatId + '\'' +
                 ", author='" + author + '\'' +
                 '}';
     }

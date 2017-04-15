@@ -15,11 +15,11 @@ public class Test6 {
     public static void main(String[] args) {
         MessageInterface messageInterface = new MessageService();
 
-        //messageInterface.sendMessage(1, "Hai man whats up", "Sadiq Saeed", "cxlz11");
+        //messageInterface.sendMessage(1, "Hai man whats up", "cxlz11", "abcdefghijkl");
 
         List<Message> messageList;
 
-        messageList = messageInterface.getAllMessages();
+        messageList = messageInterface.getAllMessages("abcdefgh1234");
 
         for (Message m : messageList) {
             System.out.println(" " + m);
